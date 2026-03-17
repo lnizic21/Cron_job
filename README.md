@@ -1,7 +1,8 @@
-#Upute
+# Upute
 
 Skini sve pakete sa npm i
 Env podatke prekopiraj te napravi identicni db ili svoje:
+
 PORT = 3001
 debug = true
 
@@ -11,8 +12,10 @@ DB_NAME = cron_job
 DB_USER = postgres
 DB_PASSWORD = postgres
 
+  primjer upisuje name unutar tablice zapis
 
-##Cron job
+
+## Cron job
 Primjer gdje se vrti svakih 5 sekundi konstantno /5
 
 Te primjer gdje se vrti samo 9 sekundu u 60 sekundi;
