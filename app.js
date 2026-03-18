@@ -26,9 +26,9 @@ const dateSlug = formatDateSlug(new Date(todaysDate)); // 'utorak-17-3-2026'
 console.log('Generated date slug for today:', dateSlug);
 
     //40 min 12 sati svaki dan
-    cron.schedule('0 50 12 * * *', async () => {
+    cron.schedule('0 40 13 * * *', async () => {
         try {
-            const data = await fetchGospel(dateSlug);
+            const data = await fetchGospel(dateSlug, todaysDate);
             console.log('Fetched gospel data:', data);
         } catch (err) {
             console.error('Error in cron job:', err);

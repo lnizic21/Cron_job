@@ -2,10 +2,10 @@
 import cron from 'node-cron';
 import got from 'got';
 import * as cheerio from 'cheerio';
-import pgPromise from 'pg-promise';
+import db from '../../database/db.js';
 
 
- export async function fetchGospel(dateStr) {
+ export async function fetchGospel(dateStr, todaysDate) {
 
   const client = got.extend({
     headers: { 'User-Agent': 'MyScraper/1.0 (+email@example.com)' },
@@ -13,7 +13,7 @@ import pgPromise from 'pg-promise';
     retry: { limit: 2 }
   });
 
-  async function fetchAndStore(dateStr) {
+  async function fetchAndStore(dateStr, todaysDate) {
     const url = `https://hilp.hr/liturgija-dana/${dateStr}`;
 
     try {
@@ -61,10 +61,19 @@ import pgPromise from 'pg-promise';
       }
 
       console.log('Gospel fetching completed. Fetched data:', {
+        todaysDate,
+        dateStr,
         reference,
         title,
         intro,
         text
+      });
+
+      await db.tx(async t => {
+        await t.none(
+          'INSERT INTO base.gospel (date, slug, reference, title, intro, gospel_text) VALUES ($1, $2, $3, $4, $5, $6)',
+          [todaysDate, dateStr, reference, title, intro, text]
+        );
       });
 
       return { reference, title, intro, text };
@@ -75,7 +84,7 @@ import pgPromise from 'pg-promise';
   }
 
   
-   const data = await fetchAndStore(dateStr);
+   const data = await fetchAndStore(dateStr, todaysDate);
   return data;
 }   
 
