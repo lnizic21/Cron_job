@@ -21,12 +21,12 @@ app.use('/api',router);
 
 
 
-const todaysDate = new Date().toISOString().split('T')[0]; // 'YYYY-MM-DD'
-const dateSlug = formatDateSlug(new Date(todaysDate)); // 'utorak-17-3-2026'
+const todaysDate = new Date().toISOString().split('T')[0]; 
+const dateSlug = formatDateSlug(new Date(todaysDate)); 
 console.log('Generated date slug for today:', dateSlug);
 
     //40 min 12 sati svaki dan
-    cron.schedule('0 40 13 * * *', async () => {
+    cron.schedule('0 40 12 * * *', async () => {
         try {
             const data = await fetchGospel(dateSlug, todaysDate);
             console.log('Fetched gospel data:', data);
